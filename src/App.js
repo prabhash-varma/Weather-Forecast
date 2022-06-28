@@ -6,7 +6,6 @@ function App() {
 
 
   const [city,setCity]=useState('');
-  const [API,setAPI]=useState('8ee2960e550fe6955510d18c8ffd4202');
   const [flag,setFlag]=useState(false);
   const [cityObj,setCityObj] = useState({
     name : '',
@@ -20,12 +19,14 @@ function App() {
 
 
   const search = ()=>{
-      Axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API}`).then((response)=>{
+      Axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.REACT_APP_API_KEY}`).then((response)=>{
         setCityObj({name: response.data.name,description: response.data.weather[0].description,temp: response.data.main.temp,mintemp:response.data.main.temp_min,maxtemp:response.data.main.temp_max,humidity: response.data.main.humidity,country: response.data.sys.country});
         console.log(response.data);
+        
         setFlag(true);
       }).catch((error)=>{
         setFlag(false);
+        console.log(process.env);
         alert('Please enter valid City name');
       })
   }
